@@ -55,7 +55,10 @@ in
       isNormalUser  = true;
       home  = "/home/chemist";
       extraGroups  = [ "wheel"  ];
-      openssh.authorizedKeys.keys = [ sshKey ];
+      openssh.authorizedKeys.keys = [
+        sshKey
+        "command=\"sudo nixos-rebuild switch --flake github:asbachb/gitops-nixos-servers#cobalt.impl.it --refresh\",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICm/IvGQDhfZ5+6dsf2KbA6I5hE0JHaiKhMef3xjitjI"
+      ];
     };
     poddy = {
       isNormalUser  = true;
@@ -63,6 +66,17 @@ in
       openssh.authorizedKeys.keys = [ sshKey ];
     };
   };
+  security.sudo.extraRules = [
+    {
+      users = [ "chemist" ];
+      commands = [
+        {
+          command = "/run/current-system/sw/bin/nixos-rebuild";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
 
   services.openssh = {
     enable = true;
