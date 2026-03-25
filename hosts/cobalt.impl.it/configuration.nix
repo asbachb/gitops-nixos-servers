@@ -66,5 +66,7 @@ in
     settings.PasswordAuthentication = false;
   };
 
+  virtualisation.podman.enable = true;
+
   system.stateVersion = "25.11";
 }
