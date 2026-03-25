@@ -21,6 +21,9 @@ in
   networking = {
     useDHCP = false;
 
+    hostName = "cobalt";
+    domain = "impl.it";
+
     interfaces.ens3 = {
       # IPv4
       ipv4.addresses = [{
