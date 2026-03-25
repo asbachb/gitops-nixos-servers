@@ -14,7 +14,7 @@
         system = "x86_64-linux";
         modules = [
           disko.nixosModules.disko
-          ./netcup-vserver/disk.nix
+          ./disk-layouts/gpt-btrfs-with-subvolumes.nix
           ./netcup-vserver/hardware.nix
           ./hosts/cobalt.impl.it/configuration.nix
         ];
