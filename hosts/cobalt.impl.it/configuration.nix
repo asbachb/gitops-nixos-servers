@@ -65,6 +65,7 @@ in
     enable = true;
     settings.PasswordAuthentication = false;
   };
+  security.pam.sshAgentAuth.enable = true;
 
   virtualisation.podman.enable = true;
 
