@@ -1,4 +1,7 @@
 { pkgs, inputs, ...}:
+let
+  echo-server = import ./containers/echo-server/container.nix;
+in
 {
     home-manager.users.poddy = {
     home = {
@@ -10,19 +13,6 @@
     
     imports = [ inputs.quadlet-nix.homeManagerModules.quadlet ];
 
-    virtualisation.quadlet.containers = {
-      echo-server = {
-        autoStart = true;
-        serviceConfig = {
-          RestartSec = "10";
-          Restart = "always";
-        };
-        containerConfig = {
-          image = "docker.io/mendhak/http-https-echo:31";
-          publishPorts = [ "127.0.0.1:8080:8080" ];
-          userns = "keep-id";
-        };
-      };
-    };
+    virtualisation.quadlet.containers = echo-server;
   };
 }
