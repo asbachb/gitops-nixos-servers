@@ -3,7 +3,7 @@ name: Update NixOS
 on:
   push:
     branches:
-      - main
+      #- main
 
 jobs:
   deploy:

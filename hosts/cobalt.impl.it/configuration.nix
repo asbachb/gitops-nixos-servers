@@ -2,6 +2,7 @@
   modulesPath,
   lib,
   pkgs,
+  inputs,
   ...
 } @ args:
 let
@@ -64,6 +65,8 @@ in
       isNormalUser  = true;
       home  = "/home/poddy";
       openssh.authorizedKeys.keys = [ sshKey ];
+      linger = true;
+      autoSubUidGidRange = true;
     };
   };
   security.sudo.extraRules = [
@@ -84,7 +87,12 @@ in
   };
   security.pam.sshAgentAuth.enable = true;
 
-  virtualisation.podman.enable = true;
+  virtualisation = {
+    podman.enable = true;
+    quadlet.enable = true;
+  };
+
+  home-manager.extraSpecialArgs = { inherit inputs; };
 
   system.stateVersion = "25.11";
 }
