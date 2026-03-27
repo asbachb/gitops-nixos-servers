@@ -68,6 +68,17 @@ in
       autoSubUidGidRange = true;
     };
   };
+  security.sudo.extraRules = [
+    {
+      users = [ "chemist" ];
+      commands = [
+        {
+          command = "/run/current-system/sw/bin/nixos-rebuild";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
 
   services.openssh = {
     enable = true;
