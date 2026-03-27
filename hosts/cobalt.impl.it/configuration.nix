@@ -56,7 +56,10 @@ in
       isNormalUser  = true;
       home  = "/home/chemist";
       extraGroups  = [ "wheel"  ];
-      openssh.authorizedKeys.keys = [ sshKey ];
+      openssh.authorizedKeys.keys = [
+        sshKey
+        "BLUBB"
+      ];
     };
     poddy = {
       isNormalUser  = true;
