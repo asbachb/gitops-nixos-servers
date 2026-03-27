@@ -57,7 +57,8 @@ in
       home  = "/home/chemist";
       extraGroups  = [ "wheel"  ];
       openssh.authorizedKeys.keys = [
-        "command=\"sudo nixos-rebuild switch --flake github:asbachb/gitops-nixos-servers#cobalt.impl.it --refresh\",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDlmq88kU7BwsIQCJ/l48FY5GZk7wjOjo6+HDHGOMXS9"
+        sshKey
+        "command=\"sudo nixos-rebuild switch --flake github:asbachb/gitops-nixos-servers#cobalt.impl.it --refresh\",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICm/IvGQDhfZ5+6dsf2KbA6I5hE0JHaiKhMef3xjitjI"
       ];
     };
     poddy = {

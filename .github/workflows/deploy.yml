@@ -1,0 +1,30 @@
+name: Update NixOS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      SSH_HOST: cobalt.impl.it
+      SSH_USER: chemist
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6.0.2
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY_CHEMIST_DEPLOY }}" | tr -d '\r' > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H ${{ env.SSH_HOST }} >> ~/.ssh/known_hosts 2>/dev/null
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Update NixOs
+        # The key is configured to only allow nixos-rebuild switch so no command is needed
+        run: |
+          echo "Running nixos-rebuild switch on ${{ env.SSH_HOST }}"
+          ssh -v ${{ env.SSH_USER }}@${{ env.SSH_HOST }}
