@@ -57,8 +57,7 @@ in
       home  = "/home/chemist";
       extraGroups  = [ "wheel"  ];
       openssh.authorizedKeys.keys = [
-        sshKey
-        "BLUBB"
+        "command=\"/run/current-system/sw/bin/whoami\",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDlmq88kU7BwsIQCJ/l48FY5GZk7wjOjo6+HDHGOMXS9"
       ];
     };
     poddy = {
