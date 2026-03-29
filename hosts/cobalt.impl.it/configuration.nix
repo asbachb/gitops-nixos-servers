@@ -2,6 +2,7 @@
   modulesPath,
   lib,
   pkgs,
+  inputs,
   ...
 } @ args:
 let
@@ -47,6 +48,16 @@ in
       address = "fe80::1";
       interface = "ens3";
     };
+
+    firewall = {
+      allowedTCPPorts = [
+        80
+        443
+      ];
+      allowedUDPPorts = [
+        443
+      ];
+    };
   };
 
   users.users = {
@@ -64,6 +75,8 @@ in
       isNormalUser  = true;
       home  = "/home/poddy";
       openssh.authorizedKeys.keys = [ sshKey ];
+      linger = true;
+      autoSubUidGidRange = true;
     };
   };
   security.sudo.extraRules = [
@@ -84,7 +97,20 @@ in
   };
   security.pam.sshAgentAuth.enable = true;
 
-  virtualisation.podman.enable = true;
+  virtualisation = {
+    podman.enable = true;
+    quadlet.enable = true;
+  };
+  systemd.services."network-online.target.enabler" = {
+      description = "Ensure network-online.target is available. Otherwise quadlet restart take 90s";
+      wantedBy = [ "default.target" ];
+      wants = [ "network-online.target" ];
+      serviceConfig.Type = "oneshot";
+      script = "true";
+  };
+
+  home-manager.extraSpecialArgs = { inherit inputs; };
+  home-manager.users.poddy = import ./users/poddy/home.nix;
 
   system.stateVersion = "25.11";
 }

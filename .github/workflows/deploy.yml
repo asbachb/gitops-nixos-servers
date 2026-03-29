@@ -3,7 +3,7 @@ name: Update NixOS
 on:
   push:
     branches:
-      - main
+      #- main
 
 jobs:
   deploy:
@@ -12,8 +12,8 @@ jobs:
       SSH_HOST: cobalt.impl.it
       SSH_USER: chemist
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v6.0.2
+      - name: Ensure github is synced
+        run: sleep 5
 
       - name: Setup SSH
         run: |
@@ -27,4 +27,4 @@ jobs:
         # The key is configured to only allow nixos-rebuild switch so no command is needed
         run: |
           echo "Running nixos-rebuild switch on ${{ env.SSH_HOST }}"
-          ssh -v ${{ env.SSH_USER }}@${{ env.SSH_HOST }}
+          ssh -t ${{ env.SSH_USER }}@${{ env.SSH_HOST }}
