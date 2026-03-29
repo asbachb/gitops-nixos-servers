@@ -2,6 +2,7 @@
   modulesPath,
   lib,
   pkgs,
+  inputs,
   ...
 } @ args:
 let
@@ -20,32 +21,43 @@ in
 
   networking = {
     useDHCP = false;
+    useNetworkd = true;
+  };
 
-    hostName = "cobalt";
-    domain = "impl.it";
+  systemd.network = {
+    enable = true;
 
-    interfaces.ens3 = {
-      # IPv4
-      ipv4.addresses = [{
-        address = "159.195.67.194";
-        prefixLength = 22;
-      }];
+    networks."10-ens3" = {
+      matchConfig.Name = "ens3";
 
-      # IPv6
-      ipv6.addresses = [{
-        address = "2a0a:4cc0:c2:1e81:a87d:3dff:fea5:9561";
-        prefixLength = 64;
-      }];
-    };
+      address = [
+        "159.195.67.194/22"
+        "2a0a:4cc0:c2:1e81:a87d:3dff:fea5:9561/64"
+      ];
 
-    defaultGateway = {
-      address = "159.195.64.1";
-      interface = "ens3";
-    };
+      routes = [
+        {
+          routeConfig = {
+            Gateway = "159.195.64.1";
+            GatewayOnLink = true;
+          };
+        }
+        {
+          routeConfig = {
+            Gateway = "fe80::1";
+            GatewayOnLink = true;
+          };
+        }
+      ];
 
-    defaultGateway6 = {
-      address = "fe80::1";
-      interface = "ens3";
+      networkConfig = {
+        DNS = [
+          "8.8.8.8"
+          "8.8.4.4"
+          "2001:4860:4860::8888"
+          "2001:4860:4860::8844"
+        ];
+      };
     };
   };
 
@@ -64,6 +76,8 @@ in
       isNormalUser  = true;
       home  = "/home/poddy";
       openssh.authorizedKeys.keys = [ sshKey ];
+      linger = true;
+      autoSubUidGidRange = true;
     };
   };
   security.sudo.extraRules = [
@@ -84,7 +98,13 @@ in
   };
   security.pam.sshAgentAuth.enable = true;
 
-  virtualisation.podman.enable = true;
+  virtualisation = {
+    podman.enable = true;
+    quadlet.enable = true;
+  };
+
+  home-manager.extraSpecialArgs = { inherit inputs; };
+  home-manager.users.poddy = import ./users/poddy/home.nix;
 
   system.stateVersion = "25.11";
 }
