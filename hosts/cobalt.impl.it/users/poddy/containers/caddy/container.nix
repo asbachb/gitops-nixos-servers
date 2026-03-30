@@ -34,9 +34,13 @@
           image = builds.caddy.ref;
           volumes = [
             "caddy-data.volume:/data:Z"
-            "${caddyfile.outPath}/etc/caddy/Caddyfile:Z"
+            "${caddyfile.outPath}:/etc/caddy/Caddyfile:Z"
             "%t/podman/podman.sock:/var/run/docker.sock"
           ];
+          environments = {
+            CADDY_DOCKER_NO_SCOPE = "true";
+            CADDY_DOCKER_CADDYFILE_PATH = "/etc/caddy/Caddyfile";
+          };
           publishPorts = [
             "80:80"
             "443:443"

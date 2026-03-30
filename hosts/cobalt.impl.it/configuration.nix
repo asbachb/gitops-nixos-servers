@@ -14,6 +14,8 @@ in
     timeout = 3;
   };
 
+  boot.kernel.sysctl."net.ipv4.ip_unprivileged_port_start" = 0;
+
   nix.settings = {
     substituters = [ "https://aseipp-nix-cache.freetls.fastly.net" ];
     experimental-features = [ "nix-command" "flakes" ];
@@ -22,6 +24,10 @@ in
   networking = {
     useDHCP = false;
     useNetworkd = true;
+    firewall = {
+      allowedTCPPorts = [ 80 443 22 ];
+      allowedUDPPorts = [ 443 ];
+    };
   };
 
   systemd.network = {
@@ -99,7 +105,10 @@ in
   security.pam.sshAgentAuth.enable = true;
 
   virtualisation = {
-    podman.enable = true;
+    podman = {
+      enable = true;
+      dockerSocket.enable = true;
+    };
     quadlet.enable = true;
   };
 
