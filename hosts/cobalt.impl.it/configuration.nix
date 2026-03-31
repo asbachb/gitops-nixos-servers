@@ -111,13 +111,6 @@ in
     };
     quadlet.enable = true;
   };
-#  systemd.services."network-online.target.enabler" = {
-#      description = "Ensure network-online.target is available. Otherwise quadlet restart take 90s";
-#      wantedBy = [ "default.target" ];
-#      wants = [ "network-online.target" ];
-#      serviceConfig.Type = "oneshot";
-#      script = "true";
-#  };
 
   home-manager.extraSpecialArgs = { inherit inputs; };
   home-manager.users.poddy = import ./users/poddy/home.nix;

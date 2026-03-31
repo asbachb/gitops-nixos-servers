@@ -22,8 +22,8 @@
         acme_dns cloudflare -RWpib-iOXuhHFSyY00PtStblzxXpf5BzDVCETYj
       }
 
-      cobalt.impl.it {
-          respond "cobalt.impl.it"
+      impl.it {
+          respond "impl.it"
       }
     '';
   in {
