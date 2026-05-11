@@ -59,11 +59,11 @@
     },
     "quadlet-nix": {
       "locked": {
-        "lastModified": 1778421207,
-        "narHash": "sha256-tbNnYvwdW7kICRPaPnghUvivt3v1DUFrKIwA0FuMGU0=",
+        "lastModified": 1778430078,
+        "narHash": "sha256-IKv4iqSoZaOthKfXOEYK0IPU/tvybn1GqvUtuDd0SNc=",
         "owner": "SEIAROTg",
         "repo": "quadlet-nix",
-        "rev": "31c2bbdbd945ac8acbb59af01270f12b360c5f5e",
+        "rev": "5c325f2c9165aefb82a9da5b0352a66e0e1f5287",
         "type": "github"
       },
       "original": {
